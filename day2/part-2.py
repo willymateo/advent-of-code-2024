@@ -27,7 +27,24 @@ def verify_report_safety(row):
     row_desc = row_no_nan.sort_values(ascending=False)
 
     if row_no_nan.equals(row_asc) or row_no_nan.equals(row_desc):
-        return verify_levels_safety(row_no_nan)
+        safe = verify_levels_safety(row_no_nan)
+
+        if safe:
+            return True
+
+        safe_single_bad = False
+
+        for index_to_delete in range(row_no_nan.shape[0]):
+            levels_copy = row_no_nan.copy()
+            levels_single_bad = levels_copy.drop(levels_copy.iloc[[index_to_delete]].index)
+            safe_single_bad = verify_levels_safety(levels_single_bad)
+
+            if (not safe_single_bad):
+                continue
+
+            break
+
+        return safe_single_bad
 
     return False
 
