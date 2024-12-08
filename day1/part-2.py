@@ -8,9 +8,7 @@ rigth_np = data_np[:, 1]
 
 
 def calculate_total_similarity(left, right):
-    left_occurences_in_rigth = [
-        np.count_nonzero(item == right) for item in left
-    ]
+    left_occurences_in_rigth = [np.count_nonzero(item == right) for item in left]
 
     similarities = left * left_occurences_in_rigth
 
